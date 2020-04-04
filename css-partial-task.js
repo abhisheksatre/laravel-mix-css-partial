@@ -2,6 +2,7 @@ const Task = require('/Users/abhishek.sat/Sites/auto/wp-content/themes/autos/nod
 const fs = require('fs');
 const Os = require('os');
 const Path = require('path');
+const chokidar = require('chokidar');
 
 class CssPartialTask extends Task {
 
@@ -13,13 +14,15 @@ class CssPartialTask extends Task {
         this.tempFolderPath = null;
         this.tempCSSFilePath = null;
         this.mix = data.mix;
+        this.disableRun = false;
 
         this.init();
     }
 
     run() {
-        console.log('task started....', Config.publicPath);
-        this.updatePartial();
+        if(this.disableRun === false){
+            this.updatePartial();
+        }
     }
 
     init(){
@@ -33,7 +36,18 @@ class CssPartialTask extends Task {
         if(fileType === '.scss' || fileType === '.sass'){
             this.mix.sass(this.src, this.tempCSSFilePath);
         }else if(fileType === '.css'){
-            this.mix.styles(this.src, this.tempCSSFilePath);
+
+            /**
+             * If watch mode then enable file watcher
+             * styles() does not have watch support
+             */
+            if(Mix.isWatching() === true){
+                this.disableRun = true; //disable run callback
+                this.mix.copy(this.src, this.tempCSSFilePath);
+                this.enableWatch(this.src, this.updatePartial.bind(this, this.src));
+            }else {
+                this.mix.styles(this.src, this.tempCSSFilePath);
+            }
         }
 
         /**
@@ -64,8 +78,8 @@ class CssPartialTask extends Task {
         return this.tempFolderPath + '/' + Path.parse(filePath).name + ".css";
     }
 
-    updatePartial(){
-        fs.readFile(this.tempCSSFilePath, 'utf8', (err, data) => {
+    updatePartial(sourceFile = this.tempCSSFilePath){
+        fs.readFile(sourceFile, 'utf8', (err, data) => {
             if (err) {
                 console.log('Unable to open file: ' + err);
                 return;
@@ -77,12 +91,13 @@ class CssPartialTask extends Task {
                 if (err){
                     throw err
                 }
+
+                console.log(`Partial ${this.partialPath} Updated`);
             });
         });
     }
 
     cleanUp(){
-        console.log('file deleted');
         this.deleteFolderRecursive(this.tempFolderPath);
     }
 
@@ -102,6 +117,11 @@ class CssPartialTask extends Task {
             });
             fs.rmdirSync(path);
         }
+    }
+
+    enableWatch(file, callback){
+        const watcher = chokidar.watch(file);
+        watcher.on('add', callback).on('change', callback);
     }
 }
 module.exports = CssPartialTask;

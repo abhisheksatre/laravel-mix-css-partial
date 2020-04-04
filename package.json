@@ -17,5 +17,8 @@
   "license": "MIT",
   "peerDependencies": {
     "laravel-mix": "^5.0.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.3.1"
   }
 }
