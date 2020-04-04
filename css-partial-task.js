@@ -29,8 +29,6 @@ class CssPartialTask extends Task {
 
         this.tempCSSFilePath = this.getTempPath(this.src);
 
-        console.log('File path ', this.tempCSSFilePath);
-
         let fileType = Path.extname(this.src).toLowerCase();
 
         if(fileType === '.scss' || fileType === '.sass'){
@@ -92,7 +90,7 @@ class CssPartialTask extends Task {
                     throw err
                 }
 
-                console.log(`Partial ${this.partialPath} Updated`);
+                console.log('\x1b[32m%s\x1b[0m', `CSS Partial '${this.partialPath}' Updated`);
             });
         });
     }
