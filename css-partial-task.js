@@ -46,6 +46,8 @@ class CssPartialTask extends Task {
             }else {
                 this.mix.styles(this.src, this.tempCSSFilePath);
             }
+        }else if(fileType === '.less'){
+            this.mix.less(this.src, this.tempCSSFilePath);
         }
 
         /**
