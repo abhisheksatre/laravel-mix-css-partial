@@ -1,4 +1,4 @@
-const Task = require('laravel-mix');
+const Task = require('laravel-mix/src/tasks/Task');
 const fs = require('fs');
 const Os = require('os');
 const Path = require('path');
