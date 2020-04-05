@@ -2,7 +2,6 @@ const Task = require('laravel-mix/src/tasks/Task');
 const fs = require('fs');
 const Os = require('os');
 const Path = require('path');
-const chokidar = require('chokidar');
 
 class CssPartialTask extends Task {
 
@@ -14,40 +13,27 @@ class CssPartialTask extends Task {
         this.tempFolderPath = null;
         this.tempCSSFilePath = null;
         this.mix = data.mix;
-        this.disableRun = false;
 
         this.init();
     }
 
     run() {
-        if(this.disableRun === false){
-            this.updatePartial();
-        }
+        this.updatePartial();
     }
 
     init(){
 
         this.tempCSSFilePath = this.getTempPath(this.src);
+        const {pluginOptions, postCssPlugins} = this.data;
 
         let fileType = Path.extname(this.src).toLowerCase();
 
         if(fileType === '.scss' || fileType === '.sass'){
-            this.mix.sass(this.src, this.tempCSSFilePath);
+            this.mix.sass(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
         }else if(fileType === '.css'){
-
-            /**
-             * If watch mode then enable file watcher
-             * styles() does not have watch support
-             */
-            if(Mix.isWatching() === true){
-                this.disableRun = true; //disable run callback
-                this.mix.copy(this.src, this.tempCSSFilePath);
-                this.enableWatch(this.src, this.updatePartial.bind(this, this.src));
-            }else {
-                this.mix.styles(this.src, this.tempCSSFilePath);
-            }
+            this.mix.postCss(this.src, this.tempCSSFilePath, pluginOptions);
         }else if(fileType === '.less'){
-            this.mix.less(this.src, this.tempCSSFilePath);
+            this.mix.less(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
         }
 
         /**
@@ -119,9 +105,5 @@ class CssPartialTask extends Task {
         }
     }
 
-    enableWatch(file, callback){
-        const watcher = chokidar.watch(file);
-        watcher.on('add', callback).on('change', callback);
-    }
 }
 module.exports = CssPartialTask;

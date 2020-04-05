@@ -11,7 +11,7 @@ class cssPartial{
         return ['cssPartial', 'csspartial'];
     }
 
-    register(src, partialPath) {
+    register(src, partialPath, pluginOptions = {}, postCssPlugins = []) {
 
         assert(typeof src === 'string', `mix.cssPartial() is missing required parameter 1: src`);
         assert(typeof partialPath === 'string', `mix.cssPartial() is missing required parameter 2: partialPath`);
@@ -24,7 +24,9 @@ class cssPartial{
         Mix.addTask(new CssPartialTask({
             src: src,
             partialPath: partialPath,
-            mix: mix
+            mix: mix,
+            pluginOptions: pluginOptions,
+            postCssPlugins: postCssPlugins
         }));
     }
 }
