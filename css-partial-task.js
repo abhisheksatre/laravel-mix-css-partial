@@ -31,7 +31,7 @@ class CssPartialTask extends Task {
         if(fileType === '.scss' || fileType === '.sass'){
             this.mix.sass(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
         }else if(fileType === '.css'){
-            this.mix.postCss(this.src, this.tempCSSFilePath, pluginOptions);
+            this.mix.postCss(this.src, this.tempCSSFilePath, postCssPlugins);
         }else if(fileType === '.less'){
             this.mix.less(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
         }else if(fileType === '.styl'){
