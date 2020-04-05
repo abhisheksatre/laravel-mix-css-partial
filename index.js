@@ -19,7 +19,7 @@ class cssPartial{
         assert(fs.existsSync(partialPath) === true, `partial file "${partialPath}" doesn't exist`);
 
         const fileType = Path.extname(src).toLowerCase();
-        assert(['.css', '.sass', '.scss', '.less'].indexOf(fileType) !== -1, `Source file type "${fileType}" is not supported for CSS partial`);
+        assert(['.css', '.sass', '.scss', '.less', '.styl'].indexOf(fileType) !== -1, `Source file type "${fileType}" is not supported for CSS partial`);
 
         Mix.addTask(new CssPartialTask({
             src: src,

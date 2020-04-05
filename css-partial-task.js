@@ -34,6 +34,8 @@ class CssPartialTask extends Task {
             this.mix.postCss(this.src, this.tempCSSFilePath, pluginOptions);
         }else if(fileType === '.less'){
             this.mix.less(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
+        }else if(fileType === '.styl'){
+            this.mix.stylus(this.src, this.tempCSSFilePath, pluginOptions, postCssPlugins);
         }
 
         /**
