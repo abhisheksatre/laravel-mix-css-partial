@@ -1,4 +1,4 @@
-const mix = require('/Users/abhishek.sat/Sites/auto/wp-content/themes/autos/node_modules/laravel-mix/src/index');
+const mix = require('laravel-mix');
 const fs = require('fs');
 const assert = require('assert');
 const CssPartialTask = require('./css-partial-task');

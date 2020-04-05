@@ -1,4 +1,4 @@
-const Task = require('/Users/abhishek.sat/Sites/auto/wp-content/themes/autos/node_modules/laravel-mix/src/tasks/Task');
+const Task = require('laravel-mix');
 const fs = require('fs');
 const Os = require('os');
 const Path = require('path');
