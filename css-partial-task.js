@@ -1,6 +1,5 @@
 const Task = require('laravel-mix/src/tasks/Task');
 const fs = require('fs');
-const Os = require('os');
 const Path = require('path');
 
 class CssPartialTask extends Task {
@@ -57,11 +56,11 @@ class CssPartialTask extends Task {
      */
     getTempPath(filePath){
 
-        if(Config.publicPath.trim() === ""){
-            this.tempFolderPath = fs.mkdtempSync(path.join(Os.tmpdir(), 'laravel-mix-css-partial-'));
-        }else{
-            this.tempFolderPath = fs.mkdtempSync(Config.publicPath + '/temp-laravel-mix-css-partial');
+        let tempDirParent = 'node_modules';
+        if(Config.publicPath.trim() !== ""){
+            tempDirParent = Config.publicPath;
         }
+        this.tempFolderPath = fs.mkdtempSync(tempDirParent + '/temp-css-partial-');
 
         return this.tempFolderPath + '/' + Path.parse(filePath).name + ".css";
     }
