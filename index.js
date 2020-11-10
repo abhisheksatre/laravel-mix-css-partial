@@ -4,7 +4,6 @@ const assert = require('assert');
 const Path = require('path');
 const CssPartialTask = require('./css-partial-task');
 
-
 class cssPartial{
 
     name() {
