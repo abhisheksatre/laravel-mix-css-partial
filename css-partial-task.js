@@ -24,6 +24,7 @@ class CssPartialTask extends Task {
 
         this.tempCSSFilePath = this.getTempPath(this.src);
         const {pluginOptions, postCssPlugins} = this.data;
+        this.files = {get(){ return this.src; }};
 
         let fileType = Path.extname(this.src).toLowerCase();
 
@@ -105,6 +106,8 @@ class CssPartialTask extends Task {
             fs.rmdirSync(path);
         }
     }
+
+    onChange(){}
 
 }
 module.exports = CssPartialTask;
