@@ -1,6 +1,6 @@
 {
   "name": "laravel-mix-css-partial",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Laravel Mix extension for CSS Partials",
   "main": "index.js",
   "scripts": {
