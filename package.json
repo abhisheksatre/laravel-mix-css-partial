@@ -21,7 +21,7 @@
   "author": "Abhishek Satre",
   "license": "MIT",
   "peerDependencies": {
-    "laravel-mix": "^5.0.0"
+    "laravel-mix": "^6.0.0"
   },
   "dependencies": {}
 }
